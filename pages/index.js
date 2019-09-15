@@ -40,6 +40,68 @@ export const Index = ({ series, posts, genres, pages }) => {
           <Grid columns={2} stackable>
             <Grid.Column>
               <Segment>
+                <Link href={"/posts"} passHref shallow>
+                  <Header>Nyeste posts</Header>
+                </Link>
+                <Item.Group>
+                  {posts.slice(0, 5).map(post => {
+                    return (
+                      <Link
+                        key={post.sys.id}
+                        as={`/post/${post.fields.url}`}
+                        href={`/post/[posturl]`}
+                        passHref
+                        shallow
+                      >
+                        <Item>
+                          {post.fields.cover && (
+                            <Item.Image
+                              size="small"
+                              src={`https:${post.fields.cover.fields.file.url}`}
+                            />
+                          )}
+                          <Item.Content>
+                            <Item.Header>{post.fields.titel}</Item.Header>
+                            <Item.Meta>{post.fields.blurb}</Item.Meta>
+                          </Item.Content>
+                        </Item>
+                      </Link>
+                    );
+                  })}
+                </Item.Group>
+              </Segment>
+              <Segment>
+                <Link href={"/serier"} passHref shallow>
+                  <Header>Nyeste serier</Header>
+                </Link>
+                <Item.Group>
+                  {series.slice(0, 5).map(show => {
+                    return (
+                      <Link
+                        key={show.sys.id}
+                        as={`/serie/${show.fields.url}`}
+                        href={`/serie/[serieurl]`}
+                        passHref
+                        shallow
+                      >
+                        <Item key={show.sys.id}>
+                          <Item.Image
+                            src={show.fields.cover.fields.file.url}
+                            size="small"
+                          />
+                          <Item.Content>
+                            <Item.Header>{show.fields.titel}</Item.Header>
+                            <Item.Meta>{show.fields.blurb}</Item.Meta>
+                          </Item.Content>
+                        </Item>
+                      </Link>
+                    );
+                  })}
+                </Item.Group>
+              </Segment>
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
                 <ReactMarkdown>{top50.fields.bio}</ReactMarkdown>
                 <Divider hidden />
                 {top50.fields.liste.map((serie, index) => {
@@ -77,68 +139,6 @@ export const Index = ({ series, posts, genres, pages }) => {
                     />
                   );
                 })}
-              </Segment>
-            </Grid.Column>
-            <Grid.Column>
-              <Segment>
-                <Link href={"/posts"} passHref shallow>
-                  <Header>Nyeste posts</Header>
-                </Link>
-                <Item.Group>
-                  {posts.map(post => {
-                    return (
-                      <Link
-                        key={post.sys.id}
-                        as={`/post/${post.fields.url}`}
-                        href={`/post/[posturl]`}
-                        passHref
-                        shallow
-                      >
-                        <Item>
-                          {post.fields.cover && (
-                            <Item.Image
-                              size="small"
-                              src={`https:${post.fields.cover.fields.file.url}`}
-                            />
-                          )}
-                          <Item.Content>
-                            <Item.Header>{post.fields.titel}</Item.Header>
-                            <Item.Meta>{post.fields.blurb}</Item.Meta>
-                          </Item.Content>
-                        </Item>
-                      </Link>
-                    );
-                  })}
-                </Item.Group>
-              </Segment>
-              <Segment>
-                <Link href={"/serier"} passHref shallow>
-                  <Header>Nyeste serier</Header>
-                </Link>
-                <Item.Group>
-                  {series.map(show => {
-                    return (
-                      <Link
-                        key={show.sys.id}
-                        as={`/serie/${show.fields.url}`}
-                        href={`/serie/[serieurl]`}
-                        passHref
-                        shallow
-                      >
-                        <Item key={show.sys.id}>
-                          <Item.Image
-                            src={show.fields.cover.fields.file.url}
-                            size="small"
-                          />
-                          <Item.Content>
-                            <Item.Header>{show.fields.titel}</Item.Header>
-                            <Item.Meta>{show.fields.blurb}</Item.Meta>
-                          </Item.Content>
-                        </Item>
-                      </Link>
-                    );
-                  })}
-                </Item.Group>
               </Segment>
             </Grid.Column>
           </Grid>

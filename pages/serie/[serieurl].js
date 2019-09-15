@@ -1,10 +1,22 @@
 import React from "react";
-import { Segment, Container, Item, Label, Transition } from "semantic-ui-react";
+import {
+  Segment,
+  Container,
+  Item,
+  Label,
+  Transition,
+  Button,
+  Icon
+} from "semantic-ui-react";
 import ReactMarkdown from "react-markdown";
 import Layout from "../../components/MyLayout.js";
 import { ribbonColor } from "../../services/ribboncolor";
+import {
+  FacebookShareButton,
+  FacebookShareCount
+} from "../../services/react-share-master";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import CategoryList from "../../components/CategoryList";
 import LinkedPostList from "../../components/LinkedPostsList";
 
@@ -63,10 +75,11 @@ const ShowDetailsPage = ({ series, posts }) => {
                                 ribbon
                                 as="a"
                                 color={ribbonColor(show.fields.udbyder)}
-                                onClick={() => {
-                                  dispatch(updateUdbyder(show.fields.udbyder));
-                                  Router.push("/serier");
-                                }}
+                                onClick={() =>
+                                  Router.push(
+                                    `/serier?clickedudbyder=${show.fields.udbyder}`
+                                  )
+                                }
                               >
                                 {show.fields.udbyder}
                               </Label>
@@ -79,7 +92,29 @@ const ShowDetailsPage = ({ series, posts }) => {
                           </Item.Header>
 
                           <Item.Meta as={"h2"}>{show.fields.blurb}</Item.Meta>
-                          <Item.Meta></Item.Meta>
+                          <Item.Meta>
+                            <FacebookShareButton
+                              url={`http://www.episodefriis.dk/serie/${show.fields.url}`}
+                            >
+                              <Button
+                                as="div"
+                                labelPosition="right"
+                                size="mini"
+                              >
+                                <Button size="mini">
+                                  <Icon name="facebook" inverted />
+                                  Del
+                                </Button>
+                                <Label as="a" basic pointing="left">
+                                  <FacebookShareCount
+                                    accessToken="483653635794173|SPI5OTz5Xrso9dkXsRTc2usgk8I"
+                                    url={`http://www.episodefriis.dk/serie/${show.fields.url}`}
+                                    style={{ color: "grey" }}
+                                  />
+                                </Label>
+                              </Button>
+                            </FacebookShareButton>
+                          </Item.Meta>
                           <ReactMarkdown>
                             {show.fields.beskrivelse}
                           </ReactMarkdown>
@@ -96,14 +131,13 @@ const ShowDetailsPage = ({ series, posts }) => {
                               })
                               .map(kategori => (
                                 <Label
-                                  as="a"
                                   key={kategori.sys.id}
-                                  onClick={() => {
-                                    dispatch(
-                                      updateCategory(kategori.fields.kategori)
-                                    );
-                                    Router.push("/serier");
-                                  }}
+                                  as="a"
+                                  onClick={() =>
+                                    Router.push(
+                                      `/serier?clickedgenre=${kategori.fields.kategori}`
+                                    )
+                                  }
                                 >
                                   {kategori.fields.kategori}
                                 </Label>

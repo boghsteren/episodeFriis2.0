@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Transition, Container, Grid, Header } from "semantic-ui-react";
+import { useRouter } from "next/router";
 import FilterByGenreMenu from "../components/FilterByGenreMenu";
 import Layout from "../components/MyLayout";
 import SeriesList from "../components/SeriesList";
@@ -7,11 +8,16 @@ import Head from "next/head";
 import FilterByServiceMenu from "../components/FilterByServiceMenu";
 
 const serier = ({ series, genres }) => {
-  const [genre, setGenre] = useState();
-  const [service, setService] = useState();
+  const router = useRouter();
+  const { clickedgenre, clickedudbyder } = router.query;
+  const [genre, setGenre] = useState(clickedgenre);
+  const [service, setService] = useState(clickedudbyder);
   const filteredByUdbyder = service
-    ? series.filter(show => show.fields.udbyder === service)
-    : series;
+    ? series
+        .filter(show => show.fields.udbyder === service)
+        .sort((a, b) => a.fields.titel.localeCompare(b.fields.titel))
+    : series.sort((a, b) => a.fields.titel.localeCompare(b.fields.titel));
+
   const filteredByGenre = filteredByUdbyder.filter(show =>
     genre
       ? show.fields.kategori
