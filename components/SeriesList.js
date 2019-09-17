@@ -19,7 +19,11 @@ export const SeriesList = ({ series }) => {
                 passHref
                 shallow
               >
-                <Item key={show.sys.id}>
+                <div
+                  style={{ cursor: "pointer" }}
+                  className="item"
+                  key={show.sys.id}
+                >
                   {show.fields.cover ? (
                     <Item.Image
                       size="medium"
@@ -68,7 +72,7 @@ export const SeriesList = ({ series }) => {
                         ))}
                     </Item.Extra>
                   </Item.Content>
-                </Item>
+                </div>
               </Link>
             );
           })}

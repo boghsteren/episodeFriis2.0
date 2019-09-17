@@ -1,9 +1,9 @@
-import { createClient } from 'contentful'
+import { createClient } from "contentful";
 
 const client = createClient({
-  space: 'qqmq4jsguzi3',
-  accessToken:
-    '8e095bdab2dd05e7f1c97e5349204e8495910b330a98e3bfc4df9806790351f6'
-})
+  space: process.env.CONTENTFUL_SPACE,
+  accessToken: process.env.CONTENTFUL_TOKEN,
+  host: process.env.CONTENT_HOST
+});
 
-export default client
+export default client;

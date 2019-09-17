@@ -16,7 +16,11 @@ export const PostSeriesList = props => {
               passHref
               shallow
             >
-              <Item key={show.sys.id}>
+              <div
+                style={{ cursor: "pointer" }}
+                className="ui item"
+                key={show.sys.id}
+              >
                 {show.fields.cover ? (
                   <Item.Image
                     size="medium"
@@ -43,7 +47,7 @@ export const PostSeriesList = props => {
                   <Item.Header>{show.fields.titel}</Item.Header>
                   <Item.Meta>{show.fields.blurb}</Item.Meta>
                 </Item.Content>
-              </Item>
+              </div>
             </Link>
           )
         );

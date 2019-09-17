@@ -35,7 +35,7 @@ export const Posts = ({ posts, series }) => {
                     passHref
                     shallow
                   >
-                    <Item>
+                    <div className="ui item" style={{ cursor: "pointer" }}>
                       {post.fields.cover && (
                         <Item.Image
                           size="medium"
@@ -54,7 +54,7 @@ export const Posts = ({ posts, series }) => {
                           </ReactMarkdown>
                         </Item.Description>
                       </Item.Content>
-                    </Item>
+                    </div>
                   </Link>
                 );
               })}

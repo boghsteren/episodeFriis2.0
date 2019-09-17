@@ -41,7 +41,9 @@ export const Index = ({ series, posts, genres, pages }) => {
             <Grid.Column>
               <Segment>
                 <Link href={"/posts"} passHref shallow>
-                  <Header>Nyeste posts</Header>
+                  <div>
+                    <Header>Nyeste posts</Header>
+                  </div>
                 </Link>
                 <Item.Group>
                   {posts.slice(0, 5).map(post => {
@@ -53,7 +55,7 @@ export const Index = ({ series, posts, genres, pages }) => {
                         passHref
                         shallow
                       >
-                        <Item>
+                        <div className="ui item" style={{ cursor: "pointer" }}>
                           {post.fields.cover && (
                             <Item.Image
                               size="small"
@@ -64,7 +66,7 @@ export const Index = ({ series, posts, genres, pages }) => {
                             <Item.Header>{post.fields.titel}</Item.Header>
                             <Item.Meta>{post.fields.blurb}</Item.Meta>
                           </Item.Content>
-                        </Item>
+                        </div>
                       </Link>
                     );
                   })}
@@ -72,7 +74,9 @@ export const Index = ({ series, posts, genres, pages }) => {
               </Segment>
               <Segment>
                 <Link href={"/serier"} passHref shallow>
-                  <Header>Nyeste serier</Header>
+                  <div>
+                    <Header>Nyeste serier</Header>
+                  </div>
                 </Link>
                 <Item.Group>
                   {series.slice(0, 5).map(show => {
@@ -84,7 +88,11 @@ export const Index = ({ series, posts, genres, pages }) => {
                         passHref
                         shallow
                       >
-                        <Item key={show.sys.id}>
+                        <div
+                          className="ui item"
+                          key={show.sys.id}
+                          style={{ cursor: "pointer" }}
+                        >
                           <Item.Image
                             src={show.fields.cover.fields.file.url}
                             size="small"
@@ -93,7 +101,7 @@ export const Index = ({ series, posts, genres, pages }) => {
                             <Item.Header>{show.fields.titel}</Item.Header>
                             <Item.Meta>{show.fields.blurb}</Item.Meta>
                           </Item.Content>
-                        </Item>
+                        </div>
                       </Link>
                     );
                   })}
@@ -120,7 +128,10 @@ export const Index = ({ series, posts, genres, pages }) => {
                               passHref
                               shallow
                             >
-                              <Item>
+                              <div
+                                className="ui item"
+                                style={{ cursor: "pointer" }}
+                              >
                                 <Item.Image
                                   size="tiny"
                                   src={`https:${serie.fields.cover.fields.file.url}`}
@@ -130,7 +141,7 @@ export const Index = ({ series, posts, genres, pages }) => {
                                     {serie.fields.titel}
                                   </Item.Header>
                                 </Item.Content>
-                              </Item>
+                              </div>
                             </Link>
                           </Item.Group>
                           <Divider hidden fitted />

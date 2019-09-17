@@ -4,6 +4,7 @@ import client from "../services/contentful";
 
 class MyApp extends App {
   render() {
+    console.log(process.env.CONTENTFUL_HOST);
     const { Component, pageProps, series, posts, genres, pages } = this.props;
     return (
       <Component
