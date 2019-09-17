@@ -54,22 +54,23 @@ export const SeriesList = ({ series }) => {
                     <Item.Header>{show.fields.titel}</Item.Header>
                     <Item.Meta>{show.fields.blurb}</Item.Meta>
                     <Item.Extra>
-                      {show.fields.kategori
-                        .sort((a, b) => {
-                          if (a.kategori > b.kategori) {
-                            return 1;
-                          }
-                          if (a.kategori > b.kategori) {
-                            return -1;
-                          }
-                        })
-                        .map(kategori => (
-                          <Label
-                            key={`${kategori.fields.kategori}-${show.sys.id}`}
-                          >
-                            {kategori.fields.kategori}
-                          </Label>
-                        ))}
+                      {show.fields.kategori &&
+                        show.fields.kategori
+                          .sort((a, b) => {
+                            if (a.kategori > b.kategori) {
+                              return 1;
+                            }
+                            if (a.kategori > b.kategori) {
+                              return -1;
+                            }
+                          })
+                          .map(kategori => (
+                            <Label
+                              key={`${kategori.fields.kategori}-${show.sys.id}`}
+                            >
+                              {kategori.fields.kategori}
+                            </Label>
+                          ))}
                     </Item.Extra>
                   </Item.Content>
                 </div>
