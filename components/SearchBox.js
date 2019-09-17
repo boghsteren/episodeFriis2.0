@@ -5,8 +5,8 @@ import { Search, Image } from "semantic-ui-react";
 const SearchBox = ({ series }) => {
   const router = useRouter();
   const [term, updateTerm] = useState();
-  const results = series.filter(show =>
-    show.fields.titel.toLowerCase().includes(term)
+  const results = series.filter(
+    show => show.fields.titel && show.fields.titel.toLowerCase().includes(term)
   );
   return (
     <div style={{ minWidth: "250px" }}>

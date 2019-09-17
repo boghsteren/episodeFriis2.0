@@ -46,7 +46,7 @@ export const Index = ({ series, posts, genres, pages }) => {
                   </div>
                 </Link>
                 <Item.Group>
-                  {posts.slice(0, 5).map(post => {
+                  {posts.slice(0, 3).map(post => {
                     return (
                       <Link
                         key={post.sys.id}
