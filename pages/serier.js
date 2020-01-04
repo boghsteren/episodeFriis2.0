@@ -14,10 +14,7 @@ const serier = ({ series, genres }) => {
   const [service, setService] = useState(clickedudbyder);
   const filteredByUdbyder = service
     ? series
-        .filter(
-          show =>
-            a.fields.titel && b.fields.titel && show.fields.udbyder === service
-        )
+        .filter(show => show.fields.udbyder === service)
         .sort((a, b) => a.fields.titel.localeCompare(b.fields.titel))
     : series.sort(
         (a, b) =>
