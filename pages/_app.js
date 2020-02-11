@@ -20,11 +20,13 @@ class MyApp extends App {
 MyApp.getInitialProps = async function() {
   const series = await client.getEntries({
     order: "-sys.createdAt",
-    content_type: "serie"
+    content_type: "serie",
+    limit: 500
   });
   const posts = await client.getEntries({
     order: "-sys.createdAt",
-    content_type: "post"
+    content_type: "post",
+    limit: 500
   });
   const genres = await client.getEntries({
     content_type: "serieKategori",
