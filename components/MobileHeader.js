@@ -42,7 +42,6 @@ export const MobileHeader = ({ series, router }) => {
         >
           <Link href="/" shallow>
             <Menu.Item name="Home" active={pathname === "/"}>
-              {" "}
               <Icon name="home" />
               Forside
             </Menu.Item>

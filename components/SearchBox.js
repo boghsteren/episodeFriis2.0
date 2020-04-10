@@ -6,7 +6,8 @@ const SearchBox = ({ series }) => {
   const router = useRouter();
   const [term, updateTerm] = useState();
   const results = series.filter(
-    show => show.fields.titel && show.fields.titel.toLowerCase().includes(term)
+    (show) =>
+      show.fields.titel && show.fields.titel.toLowerCase().includes(term)
   );
   return (
     <div style={{ minWidth: "250px" }}>
@@ -15,19 +16,19 @@ const SearchBox = ({ series }) => {
         type="text"
         size={"small"}
         value={term}
-        onSearchChange={e => updateTerm(e.target.value)}
-        onResultSelect={(event, data) =>
+        onSearchChange={(e, data) => updateTerm(data.value)}
+        onResultSelect={(e, data) =>
           router.push(`/serie/[serieurl]`, `/serie/${data.result.url}`, {
-            shallow: true
+            shallow: true,
           })
         }
-        results={results.map(result => {
+        results={results.map((result) => {
           return {
             title: result.fields.titel,
             cover: result.fields.cover,
             id: result.sys.id,
             key: result.sys.id,
-            url: result.fields.url
+            url: result.fields.url,
           };
         })}
         resultRenderer={({ title, cover, id, url, type }) => [
@@ -36,7 +37,7 @@ const SearchBox = ({ series }) => {
               <Image src={`https:${cover.fields.file.url}`} size="small" />
             )}
             {title}
-          </div>
+          </div>,
         ]}
       ></Search>
     </div>
