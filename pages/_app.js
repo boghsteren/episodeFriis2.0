@@ -17,30 +17,30 @@ class MyApp extends App {
   }
 }
 
-MyApp.getInitialProps = async function() {
+MyApp.getInitialProps = async () => {
   const series = await client.getEntries({
     order: "-sys.createdAt",
     content_type: "serie",
-    limit: 500
+    limit: 500,
   });
   const posts = await client.getEntries({
     order: "-sys.createdAt",
     content_type: "post",
-    limit: 500
+    limit: 500,
   });
   const genres = await client.getEntries({
     content_type: "serieKategori",
-    order: "fields.kategori"
+    order: "fields.kategori",
   });
   const pages = await client.getEntries({
     content_type: "side",
-    include: 2
+    include: 2,
   });
   return {
     series: series.items,
     posts: posts.items,
     genres: genres.items,
-    pages: pages.items
+    pages: pages.items,
   };
 };
 

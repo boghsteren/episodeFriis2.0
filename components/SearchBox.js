@@ -5,12 +5,9 @@ import { Search, Image } from "semantic-ui-react";
 const SearchBox = ({ series }) => {
   const router = useRouter();
   const [term, updateTerm] = useState();
-  const results = series.filter(
-    (show) =>
-      show.fields.titel && show.fields.titel.toLowerCase().includes(term)
-  );
-  console.log(series);
-  console.log(results);
+  const results = series.filter((show) => {
+    return show.fields.titel && show.fields.titel.includes(term);
+  });
   return (
     <div style={{ minWidth: "250px" }}>
       <Search
@@ -19,7 +16,6 @@ const SearchBox = ({ series }) => {
         size={"small"}
         value={term}
         onSearchChange={(e, data) => {
-          console.log(data.value);
           updateTerm(data.value);
         }}
         onResultSelect={(e, data) =>
