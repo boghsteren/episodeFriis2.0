@@ -6,7 +6,11 @@ const SearchBox = ({ series }) => {
   const router = useRouter();
   const [term, updateTerm] = useState();
   const results = series.filter((show) => {
-    return show.fields.titel && show.fields.titel.includes(term);
+    return (
+      show.fields.titel &&
+      term &&
+      show.fields.titel.toLowerCase().includes(term.toLowerCase())
+    );
   });
   return (
     <div style={{ minWidth: "250px" }}>
