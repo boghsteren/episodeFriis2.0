@@ -9,6 +9,8 @@ const SearchBox = ({ series }) => {
     (show) =>
       show.fields.titel && show.fields.titel.toLowerCase().includes(term)
   );
+  console.log(series);
+  console.log(results);
   return (
     <div style={{ minWidth: "250px" }}>
       <Search
@@ -16,7 +18,10 @@ const SearchBox = ({ series }) => {
         type="text"
         size={"small"}
         value={term}
-        onSearchChange={(e, data) => updateTerm(data.value)}
+        onSearchChange={(e, data) => {
+          console.log(data.value);
+          updateTerm(data.value);
+        }}
         onResultSelect={(e, data) =>
           router.push(`/serie/[serieurl]`, `/serie/${data.result.url}`, {
             shallow: true,
@@ -32,7 +37,7 @@ const SearchBox = ({ series }) => {
           };
         })}
         resultRenderer={({ title, cover, id, url, type }) => [
-          <div>
+          <div key={id}>
             {cover && (
               <Image src={`https:${cover.fields.file.url}`} size="small" />
             )}
