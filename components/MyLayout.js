@@ -15,7 +15,7 @@ export const Layout = ({ series, children }) => {
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NQXC97M');`
+    })(window,document,'script','dataLayer','GTM-NQXC97M');`,
             }}
           />
 
@@ -31,15 +31,11 @@ export const Layout = ({ series, children }) => {
             name="google-site-verification"
             content="DJb3r52INT6_wlSJrbPOgvUAyghsw2q16Aaqlsf79LA"
           />
-          <link
-            rel="shortcut icon"
-            type="image/x-icon"
-            href="/static/favicon.ico"
-          />
+          <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         </Head>
         <noscript
           dangerouslySetInnerHTML={{
-            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NQXC97M" height="0" width="0" style="display:none;visibility:hidden;"></iframe>`
+            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NQXC97M" height="0" width="0" style="display:none;visibility:hidden;"></iframe>`,
           }}
         />
         <div className="desktop">

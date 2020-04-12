@@ -1,13 +1,12 @@
 import React from "react";
 import { Container, Item, Transition } from "semantic-ui-react";
 import ReactMarkdown from "react-markdown";
-import Layout from "../components/MyLayout.js";
 import Link from "next/link";
 import Head from "next/head";
 
-export const Posts = ({ posts, series }) => {
+export const Posts = ({ posts }) => {
   return (
-    <Layout series={series}>
+    <div>
       <Head>
         <title>Posts | episodeFriis</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,7 +25,7 @@ export const Posts = ({ posts, series }) => {
         <Container>
           <Item.Group divided relaxed>
             {posts &&
-              posts.map(post => {
+              posts.map((post) => {
                 return (
                   <Link
                     key={post.sys.id}
@@ -61,7 +60,7 @@ export const Posts = ({ posts, series }) => {
           </Item.Group>
         </Container>
       </Transition>
-    </Layout>
+    </div>
   );
 };
 

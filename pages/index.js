@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "../components/MyLayout.js";
 import Link from "next/link";
 import {
   Segment,
@@ -9,15 +8,15 @@ import {
   Container,
   Header,
   Transition,
-  Popup
+  Popup,
 } from "semantic-ui-react";
 import Head from "next/head";
 import ReactMarkdown from "react-markdown";
 
-export const Index = ({ series, posts, genres, pages }) => {
-  const top50 = pages.find(page => page.sys.id === "5UJz7bo4W4mCe6eQAe6YcM");
+export const Index = ({ series, posts, pages }) => {
+  const top50 = pages?.find((page) => page.sys.id === "5UJz7bo4W4mCe6eQAe6YcM");
   return (
-    <Layout series={series}>
+    <div>
       <Head>
         <title>episodeFriis</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -46,30 +45,40 @@ export const Index = ({ series, posts, genres, pages }) => {
                   </div>
                 </Link>
                 <Item.Group>
-                  {posts.slice(0, 3).map(post => {
-                    return (
-                      <Link
-                        key={post.sys.id}
-                        as={`/post/${post.fields.url}`}
-                        href={`/post/[posturl]`}
-                        passHref
-                        shallow
-                      >
-                        <div className="ui item" style={{ cursor: "pointer" }}>
-                          {post.fields.cover && (
-                            <Item.Image
-                              size="small"
-                              src={`https:${post.fields.cover.fields.file.url}`}
-                            />
-                          )}
-                          <Item.Content>
-                            <Item.Header>{post.fields.titel}</Item.Header>
-                            <Item.Meta>{post.fields.blurb}</Item.Meta>
-                          </Item.Content>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                  {posts
+                    ?.slice(0, 3)
+                    .map(
+                      ({
+                        sys: { id },
+                        fields: { titel, blurb, url, cover },
+                      }) => {
+                        return (
+                          <Link
+                            key={id}
+                            as={`/post/${url}`}
+                            href={`/post/[posturl]`}
+                            passHref
+                            shallow
+                          >
+                            <div
+                              className="ui item"
+                              style={{ cursor: "pointer" }}
+                            >
+                              {cover && (
+                                <Item.Image
+                                  size="small"
+                                  src={`https:${cover.fields.file.url}`}
+                                />
+                              )}
+                              <Item.Content>
+                                <Item.Header>{titel}</Item.Header>
+                                <Item.Meta>{blurb}</Item.Meta>
+                              </Item.Content>
+                            </div>
+                          </Link>
+                        );
+                      }
+                    )}
                 </Item.Group>
               </Segment>
               <Segment>
@@ -79,40 +88,41 @@ export const Index = ({ series, posts, genres, pages }) => {
                   </div>
                 </Link>
                 <Item.Group>
-                  {series.slice(0, 5).map(show => {
-                    return (
-                      <Link
-                        key={show.sys.id}
-                        as={`/serie/${show.fields.url}`}
-                        href={`/serie/[serieurl]`}
-                        passHref
-                        shallow
-                      >
-                        <div
-                          className="ui item"
+                  {series &&
+                    series.slice(0, 5).map((show) => {
+                      return (
+                        <Link
                           key={show.sys.id}
-                          style={{ cursor: "pointer" }}
+                          as={`/serie/${show.fields.url}`}
+                          href={`/serie/[serieurl]`}
+                          passHref
+                          shallow
                         >
-                          <Item.Image
-                            src={show.fields.cover.fields.file.url}
-                            size="small"
-                          />
-                          <Item.Content>
-                            <Item.Header>{show.fields.titel}</Item.Header>
-                            <Item.Meta>{show.fields.blurb}</Item.Meta>
-                          </Item.Content>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                          <div
+                            className="ui item"
+                            key={show.sys.id}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <Item.Image
+                              src={show.fields.cover.fields.file.url}
+                              size="small"
+                            />
+                            <Item.Content>
+                              <Item.Header>{show.fields.titel}</Item.Header>
+                              <Item.Meta>{show.fields.blurb}</Item.Meta>
+                            </Item.Content>
+                          </div>
+                        </Link>
+                      );
+                    })}
                 </Item.Group>
               </Segment>
             </Grid.Column>
             <Grid.Column>
               <Segment>
-                <ReactMarkdown>{top50.fields.bio}</ReactMarkdown>
+                <ReactMarkdown>{top50?.fields.bio}</ReactMarkdown>
                 <Divider hidden />
-                {top50.fields.liste.map((serie, index) => {
+                {top50?.fields.liste.map((serie, index) => {
                   return (
                     <Popup
                       key={serie.sys.id}
@@ -155,7 +165,7 @@ export const Index = ({ series, posts, genres, pages }) => {
           </Grid>
         </Container>
       </Transition>
-    </Layout>
+    </div>
   );
 };
 

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Transition, Container, Grid, Header } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import FilterByGenreMenu from "../components/FilterByGenreMenu";
-import Layout from "../components/MyLayout";
 import SeriesList from "../components/SeriesList";
 import Head from "next/head";
 import FilterByServiceMenu from "../components/FilterByServiceMenu";
@@ -12,26 +11,27 @@ const serier = ({ series, genres }) => {
   const { clickedgenre, clickedudbyder } = router.query;
   const [genre, setGenre] = useState(clickedgenre);
   const [service, setService] = useState(clickedudbyder);
-  const filteredByUdbyder = service
-    ? series
-        .filter(show => show.fields.udbyder === service)
-        .sort((a, b) => a.fields.titel.localeCompare(b.fields.titel))
-    : series.sort(
-        (a, b) =>
-          a.fields.titel &&
-          b.fields.titel &&
-          a.fields.titel.localeCompare(b.fields.titel)
-      );
+  const filteredByUdbyder =
+    series && service
+      ? series
+          ?.filter(({ fields: { udbyder } }) => udbyder === service)
+          .sort((a, b) => a.fields.titel.localeCompare(b.fields.titel))
+      : series?.sort(
+          (a, b) =>
+            a.fields.titel &&
+            b.fields.titel &&
+            a.fields.titel.localeCompare(b.fields.titel)
+        );
 
-  const filteredByGenre = filteredByUdbyder.filter(show =>
+  const filteredByGenre = filteredByUdbyder?.filter((show) =>
     genre
       ? show.fields.kategori
-          .map(kategori => kategori.fields.kategori)
+          ?.map((kategori) => kategori.fields.kategori)
           .includes(genre)
       : filteredByUdbyder
   );
   return (
-    <Layout series={series}>
+    <div>
       <Head>
         <title>Serier | episodeFriis</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -54,23 +54,27 @@ const serier = ({ series, genres }) => {
                 <div
                   style={{
                     position: "fixed",
-                    maxWidth: "200px"
+                    maxWidth: "200px",
                   }}
                 >
                   <Header>Genrer</Header>
-                  <FilterByGenreMenu
-                    series={filteredByUdbyder}
-                    setGenre={setGenre}
-                    genres={genres}
-                    activeGenre={genre}
-                  ></FilterByGenreMenu>
+                  {genres && (
+                    <FilterByGenreMenu
+                      series={filteredByUdbyder}
+                      setGenre={setGenre}
+                      genres={genres}
+                      activeGenre={genre}
+                    ></FilterByGenreMenu>
+                  )}
                   <Header>Udbydere</Header>
-                  <FilterByServiceMenu
-                    series={series}
-                    filterSeries={filteredByGenre}
-                    setService={setService}
-                    selectedService={service}
-                  />
+                  {series && (
+                    <FilterByServiceMenu
+                      series={series}
+                      filterSeries={filteredByGenre}
+                      setService={setService}
+                      selectedService={service}
+                    />
+                  )}
                 </div>
                 <div style={{ marginBottom: "80px" }} />
               </Grid.Column>
@@ -86,7 +90,7 @@ const serier = ({ series, genres }) => {
                   style={{
                     display: "flex",
                     justifyContent: "space-evenly",
-                    marginBottom: "15px"
+                    marginBottom: "15px",
                   }}
                 ></div>
                 <SeriesList series={filteredByGenre} />
@@ -108,7 +112,7 @@ const serier = ({ series, genres }) => {
           }
         }
       `}</style>
-    </Layout>
+    </div>
   );
 };
 

@@ -5,13 +5,15 @@ import { getRelatedShows } from "../services/getRelatedShows";
 
 export const CategoryList = ({ genre, id, series }) => {
   const relatedShows =
-    series && getRelatedShows(genre, series).filter(show => show.sys.id !== id);
+    series &&
+    genre &&
+    getRelatedShows(genre, series).filter((show) => show.sys.id !== id);
   return (
-    relatedShows.length > 1 && (
+    relatedShows?.length > 1 && (
       <Container>
         <Header>Andre {genre.toLowerCase()}-serier</Header>
         <Card.Group itemsPerRow={5} stackable>
-          {relatedShows.map(show => {
+          {relatedShows.map((show) => {
             if (show.id !== id) {
               return (
                 <Link

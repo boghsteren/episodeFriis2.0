@@ -19,7 +19,7 @@ export const MobileHeader = ({ series, router }) => {
   return (
     <div>
       <Head>
-        <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
+        <link rel="stylesheet" type="text/css" href="/nprogress.css" />
       </Head>
       <div>
         <Menu borderless>

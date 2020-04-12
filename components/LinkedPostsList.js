@@ -3,10 +3,10 @@ import Link from "next/link";
 import { Container, Label, Card, Image, Header } from "semantic-ui-react";
 
 export const LinkedPostList = ({ show, posts }) => {
-  const relatedPosts = posts.filter(
-    post =>
-      post.fields.liste &&
-      post.fields.liste.map(list_item => list_item.sys.id).includes(show.sys.id)
+  const relatedPosts = posts.filter((post) =>
+    post.fields.liste
+      ?.map((list_item) => list_item.sys.id)
+      .includes(show.sys.id)
   );
   return (
     <div>
@@ -14,7 +14,7 @@ export const LinkedPostList = ({ show, posts }) => {
         <Container>
           <Header>Relaterede posts</Header>
           <Card.Group itemsPerRow={4} stackable>
-            {relatedPosts.map(post => {
+            {relatedPosts.map((post) => {
               return (
                 <Link
                   key={post.sys.id}

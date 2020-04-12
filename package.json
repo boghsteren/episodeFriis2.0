@@ -8,14 +8,14 @@
     "start": "next start -p $PORT"
   },
   "dependencies": {
-    "contentful": "^7.9.1",
-    "dotenv": "^8.1.0",
-    "next": "9.0.5",
+    "contentful": "^7.14.2",
+    "dotenv": "^8.2.0",
+    "next": "^9.3.4",
     "nprogress": "^0.2.0",
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
-    "react-markdown": "^4.2.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-markdown": "^4.3.1",
     "react-share": "^3.0.1",
-    "semantic-ui-react": "^0.88.1"
+    "semantic-ui-react": "^0.88.2"
   }
 }

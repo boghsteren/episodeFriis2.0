@@ -11,14 +11,14 @@ export const Footer = () => {
           style={{
             textAlign: "center",
             display: "flex",
-            justifyContent: "space-evenly"
+            justifyContent: "space-evenly",
           }}
         >
           <Link href="/privatliv" shallow>
             <a>Privatlivspolitik</a>
           </Link>
           <Image
-            src="/static/PoweredByContentful_LightBackground.svg"
+            src="/PoweredByContentful_LightBackground.svg"
             spaced
             size="tiny"
             href="https://www.contentful.com"
