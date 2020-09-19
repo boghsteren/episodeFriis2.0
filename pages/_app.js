@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import App from "next/app";
-import client from "../services/contentful";
 import Layout from "../components/MyLayout";
+import { getPosts, getGenres, getPages, getShows } from "../services/getData";
 
 export const MyApp = ({ pageProps, Component }) => {
   const [series, setSeries] = useState();
@@ -9,33 +9,17 @@ export const MyApp = ({ pageProps, Component }) => {
   const [pages, setPages] = useState();
   const [genres, setGenres] = useState();
   useEffect(() => {
-    client
-      .getEntries({
-        order: "-sys.createdAt",
-        content_type: "serie",
-        limit: 500,
-      })
-      .then((data) => setSeries(data.items));
-
-    client
-      .getEntries({
-        order: "-sys.createdAt",
-        content_type: "post",
-        limit: 500,
-      })
-      .then((data) => setPosts(data.items));
-    client
-      .getEntries({
-        content_type: "side",
-        include: 2,
-      })
-      .then((data) => setPages(data.items));
-    client
-      .getEntries({
-        content_type: "serieKategori",
-        order: "fields.kategori",
-      })
-      .then((data) => setGenres(data.items));
+    const getData = async () => {
+      let seriesData = await getShows();
+      setSeries(seriesData);
+      let postsData = await getPosts();
+      setPosts(postsData);
+      let genreData = await getGenres();
+      setGenres(genreData);
+      let pagesData = await getPages();
+      setPages(pagesData);
+    };
+    getData();
   }, []);
   return (
     <div>

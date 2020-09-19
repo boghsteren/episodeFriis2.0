@@ -16,8 +16,8 @@ import {
 } from "../../services/react-share-master";
 import { PostSeriesList } from "../../components/PostSeriesList.js";
 import Head from "next/head";
-import client from "../../services/contentful";
 import { useRouter } from "next/router";
+import { getPosts } from "../../services/getData";
 
 export const PostDetailsPage = ({ post, failed }) => {
   const router = useRouter();
@@ -101,13 +101,22 @@ export const PostDetailsPage = ({ post, failed }) => {
   );
 };
 
-export const getServerSideProps = async ({ params }) => {
-  const data = await client.getEntries({
-    "fields.url": params.posturl,
-    content_type: "post",
-  });
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const paths = posts.map((post) => ({
+    params: { posturl: post.fields.url },
+  }));
   return {
-    props: { post: data.items[0] },
+    paths,
+    fallback: true,
+  };
+}
+
+export const getStaticProps = async ({ params }) => {
+  const posts = await getPosts();
+
+  return {
+    props: { post: posts.find((post) => post.fields.url === params.posturl) },
   };
 };
 

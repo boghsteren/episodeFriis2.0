@@ -19,6 +19,7 @@ import Router from "next/router";
 import CategoryList from "../../components/CategoryList";
 import LinkedPostList from "../../components/LinkedPostsList";
 import client from "../../services/contentful";
+import { getPosts, getShows } from "../../services/getData";
 
 const ShowDetailsPage = ({ show, series, posts }) => {
   const { fields } = show || {};
@@ -165,13 +166,27 @@ const ShowDetailsPage = ({ show, series, posts }) => {
   );
 };
 
-export const getServerSideProps = async ({ params }) => {
-  const series = await client.getEntries({
-    content_type: "serie",
-    "fields.url": params.serieurl,
-  });
+export async function getStaticPaths() {
+  const series = await getShows();
+  const paths = series.map((item) => ({
+    params: { serieurl: item.fields.url },
+  }));
   return {
-    props: { show: series.items[0] },
+    paths,
+    fallback: true,
+  };
+}
+
+export const getStaticProps = async ({ params }) => {
+  const series = await getShows();
+  const posts = await getPosts();
+
+  return {
+    props: {
+      series: series,
+      posts: posts,
+      show: series.find((item) => item.fields.url === params.serieurl),
+    },
   };
 };
 
