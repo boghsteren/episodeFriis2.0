@@ -12,9 +12,10 @@ import {
 } from "semantic-ui-react";
 import Head from "next/head";
 import ReactMarkdown from "react-markdown";
+import client from "../services/contentful";
 
-export const Index = ({ series, posts, pages }) => {
-  const top50 = pages?.find((page) => page.sys.id === "5UJz7bo4W4mCe6eQAe6YcM");
+export const Index = ({ series, posts, page }) => {
+  const top50 = page;
   return (
     <div>
       <Head>
@@ -169,4 +170,25 @@ export const Index = ({ series, posts, pages }) => {
   );
 };
 
+export async function getStaticProps() {
+  const page = await client.getEntry("5UJz7bo4W4mCe6eQAe6YcM");
+  const series = await client.getEntries({
+    order: "-sys.createdAt",
+    content_type: "serie",
+    limit: 500,
+  });
+  const posts = await client.getEntries({
+    order: "-sys.createdAt",
+    content_type: "post",
+    limit: 500,
+  });
+  return {
+    props: {
+      page,
+      series: series.items,
+      posts: posts.items,
+    },
+    revalidate: 60,
+  };
+}
 export default Index;

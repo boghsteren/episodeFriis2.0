@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Head from "next/head";
 import React, { useState } from "react";
 import { Menu, Icon, Sidebar } from "semantic-ui-react";
 import { withRouter } from "next/router";
@@ -18,9 +17,6 @@ export const MobileHeader = ({ series, router }) => {
   const { pathname } = router;
   return (
     <div>
-      <Head>
-        <link rel="stylesheet" type="text/css" href="/nprogress.css" />
-      </Head>
       <div>
         <Menu borderless>
           <Menu.Item onClick={() => toggleVisibility(!visible)}>

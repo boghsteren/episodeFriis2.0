@@ -10,10 +10,6 @@ import {
   Label,
 } from "semantic-ui-react";
 import ReactMarkdown from "react-markdown";
-import {
-  FacebookShareButton,
-  FacebookShareCount,
-} from "../../services/react-share-master";
 import { PostSeriesList } from "../../components/PostSeriesList.js";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -65,23 +61,13 @@ export const PostDetailsPage = ({ post, failed }) => {
             <Header size="medium" as="h2">
               {blurb}
             </Header>
-            <FacebookShareButton
-              url={`http://www.episodefriis.dk/serie/${url}`}
-            >
-              <Button as="div" labelPosition="right" size="mini">
-                <Button size="mini">
-                  <Icon name="facebook" inverted />
-                  Del
-                </Button>
-                <Label as="a" basic pointing="left">
-                  <FacebookShareCount
-                    accessToken="483653635794173|SPI5OTz5Xrso9dkXsRTc2usgk8I"
-                    url={`http://www.episodefriis.dk/post/${url}`}
-                    style={{ color: "grey" }}
-                  />
-                </Label>
+            <Button as="div" labelPosition="right" size="mini">
+              <Button size="mini">
+                <Icon name="facebook" inverted />
+                Del
               </Button>
-            </FacebookShareButton>
+              <Label as="a" basic pointing="left"></Label>
+            </Button>
             <Divider />
             <ReactMarkdown>{tekstOverListe}</ReactMarkdown>
             {liste && (

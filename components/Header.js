@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Head from "next/head";
 import React from "react";
 import { Menu, Transition, Icon, Image } from "semantic-ui-react";
 import { withRouter } from "next/router";
@@ -15,9 +14,6 @@ Router.onRouteChangeError = () => NProgress.done();
 
 export const Header = ({ router, series }) => (
   <div>
-    <Head>
-      <link rel="stylesheet" type="text/css" href="/nprogress.css" />
-    </Head>
     <Transition transitionOnMount duration={1000}>
       <div>
         <Menu fixed={"top"} borderless>

@@ -2,9 +2,10 @@ import React from "react";
 import { Segment, Container, Item, Transition } from "semantic-ui-react";
 import ReactMarkdown from "react-markdown";
 import Head from "next/head";
+import client from "../services/contentful";
 
-export const CvPage = ({ pages }) => {
-  const { fields } = pages?.find((page) => page.fields?.url === "friis") || {};
+export const CvPage = ({ page }) => {
+  const { fields } = page;
   const { billede, titel, bio } = fields || {};
   return (
     <div>
@@ -53,5 +54,14 @@ export const CvPage = ({ pages }) => {
     </div>
   );
 };
+export async function getStaticProps() {
+  const page = await client.getEntry("2XM4suyfCUKggIkAsYACqm");
+  return {
+    props: {
+      page,
+    },
+    revalidate: 60,
+  };
+}
 
 export default CvPage;

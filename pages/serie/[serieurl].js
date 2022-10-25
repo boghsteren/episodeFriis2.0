@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Segment,
   Container,
@@ -10,16 +9,12 @@ import {
 } from "semantic-ui-react";
 import ReactMarkdown from "react-markdown";
 import { ribbonColor } from "../../services/ribboncolor";
-import {
-  FacebookShareButton,
-  FacebookShareCount,
-} from "../../services/react-share-master";
 import Head from "next/head";
 import Router from "next/router";
 import CategoryList from "../../components/CategoryList";
 import LinkedPostList from "../../components/LinkedPostsList";
-import client from "../../services/contentful";
 import { getPosts, getShows } from "../../services/getData";
+import { FacebookShareCount } from "react-share";
 
 const ShowDetailsPage = ({ show, series, posts }) => {
   const { fields } = show || {};
@@ -45,7 +40,7 @@ const ShowDetailsPage = ({ show, series, posts }) => {
 
         <meta
           property="og:url"
-          content={`http://www.episodefriis.dk/serie/${url}`}
+          content={`https://www.episodefriis.dk/serie/${url}`}
         />
         <meta property="og:type" content="website" />
         <meta
@@ -54,6 +49,7 @@ const ShowDetailsPage = ({ show, series, posts }) => {
         />
         <meta property="og:image" content={`http:${cover?.fields.file.url}`} />
       </Head>
+
       <Transition transitionOnMount>
         <div>
           <Container>
@@ -84,27 +80,32 @@ const ShowDetailsPage = ({ show, series, posts }) => {
                       <Item.Content>
                         <Item.Header size="huge" as={"h1"}>
                           {titel}
+                          <FacebookShareCount
+                            url={`https://www.episodefriis.dk/serie/${url}`}
+                          >
+                            {(sharecount) => console.log(sharecount)}
+                          </FacebookShareCount>
+                          <FacebookShareCount
+                            accesstoken="483653635794173|SPI5OTz5Xrso9dkXsRTc2usgk8I"
+                            url={`http://www.episodefriis.dk/serie/${url}`}
+                          >
+                            {(sharecount) =>
+                              console.log(
+                                `http://www.episodefriis.dk/serie/${url}`
+                              )
+                            }
+                          </FacebookShareCount>
                         </Item.Header>
 
                         <Item.Meta as={"h2"}>{blurb}</Item.Meta>
                         <Item.Meta>
-                          <FacebookShareButton
-                            url={`http://www.episodefriis.dk/serie/${url}`}
-                          >
-                            <Button as="div" labelPosition="right" size="mini">
-                              <Button size="mini">
-                                <Icon name="facebook" inverted />
-                                Del
-                              </Button>
-                              <Label as="a" basic pointing="left">
-                                <FacebookShareCount
-                                  accessToken="483653635794173|SPI5OTz5Xrso9dkXsRTc2usgk8I"
-                                  url={`http://www.episodefriis.dk/serie/${url}`}
-                                  style={{ color: "grey" }}
-                                />
-                              </Label>
+                          <Button as="div" labelPosition="right" size="mini">
+                            <Button size="mini">
+                              <Icon name="facebook" inverted />
+                              Del
                             </Button>
-                          </FacebookShareButton>
+                            <Label as="a" basic pointing="left"></Label>
+                          </Button>
                         </Item.Meta>
                         <ReactMarkdown>{beskrivelse}</ReactMarkdown>
 
@@ -187,6 +188,7 @@ export const getStaticProps = async ({ params }) => {
       posts: posts,
       show: series.find((item) => item.fields.url === params.serieurl),
     },
+    revalidate: 60,
   };
 };
 
