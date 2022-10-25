@@ -24,9 +24,15 @@ export const CategoryList = ({ genre, id, series }) => {
                 >
                   <Card>
                     {show.fields.cover && (
-                      <Image
-                        src={`https:${show.fields.cover.fields.file.url}`}
-                      />
+                      <div
+                        style={{
+                          height: "120px",
+                          backgroundImage: `url(
+                            https:${show.fields.cover.fields.file.url}?h=250
+                          )`,
+                          backgroundSize: "cover",
+                        }}
+                      ></div>
                     )}
                     <Card.Content>
                       <Card.Header>{show.fields.titel}</Card.Header>

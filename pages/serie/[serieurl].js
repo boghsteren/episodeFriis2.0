@@ -50,7 +50,7 @@ const ShowDetailsPage = ({ show, series, posts }) => {
         <meta property="og:image" content={`http:${cover?.fields.file.url}`} />
       </Head>
 
-      <Transition transitionOnMount>
+      <Transition>
         <div>
           <Container>
             <div>
