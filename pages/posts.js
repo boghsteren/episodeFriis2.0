@@ -3,7 +3,6 @@ import { Container, Item, Transition } from "semantic-ui-react";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import Head from "next/head";
-import client from "../services/contentful";
 
 export const Posts = ({ posts }) => {
   return (
@@ -64,19 +63,5 @@ export const Posts = ({ posts }) => {
     </div>
   );
 };
-
-export async function getStaticProps() {
-  const posts = await client.getEntries({
-    order: "-sys.createdAt",
-    content_type: "post",
-    limit: 500,
-  });
-  return {
-    props: {
-      posts: posts.items,
-    },
-    revalidate: 60,
-  };
-}
 
 export default Posts;

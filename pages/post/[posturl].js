@@ -16,14 +16,13 @@ import { useRouter } from "next/router";
 import { getPosts } from "../../services/getData";
 
 export const PostDetailsPage = ({ post, failed }) => {
-  const router = useRouter();
   const { fields } = post || {};
   const { titel, cover, blurb, url, tekstOverListe, liste, tekstUnderListe } =
     fields || {};
   return (
     <div>
       <Head>
-        <title>{titel} | episodeFriis</title>
+        <title>{titel} / episodeFriis</title>
         <meta property="og:title" content={titel} />
         <meta
           property="og:image:width"
@@ -100,9 +99,10 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async ({ params }) => {
   const posts = await getPosts();
-
+  const post = posts.find((post) => post.fields.url === params.posturl);
   return {
-    props: { post: posts.find((post) => post.fields.url === params.posturl) },
+    props: { post },
+    revalidate: 60,
   };
 };
 

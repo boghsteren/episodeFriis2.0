@@ -116,23 +116,4 @@ const serier = ({ series, genres }) => {
     </div>
   );
 };
-export async function getStaticProps() {
-  const series = await client.getEntries({
-    order: "-sys.createdAt",
-    content_type: "serie",
-    limit: 500,
-  });
-  const genres = await client.getEntries({
-    content_type: "serieKategori",
-    order: "fields.kategori",
-  });
-
-  return {
-    props: {
-      series: series.items,
-      genres: genres.items,
-    },
-    revalidate: 60,
-  };
-}
 export default serier;

@@ -13,7 +13,7 @@ import Head from "next/head";
 import Router from "next/router";
 import CategoryList from "../../components/CategoryList";
 import LinkedPostList from "../../components/LinkedPostsList";
-import { getPosts, getShows } from "../../services/getData";
+import { getShows } from "../../services/getData";
 import { FacebookShareCount } from "react-share";
 
 const ShowDetailsPage = ({ show, series, posts }) => {
@@ -180,13 +180,10 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async ({ params }) => {
   const series = await getShows();
-  const posts = await getPosts();
-
+  const show = series.find((item) => item.fields.url === params.serieurl);
   return {
     props: {
-      series: series,
-      posts: posts,
-      show: series.find((item) => item.fields.url === params.serieurl),
+      show,
     },
     revalidate: 60,
   };
