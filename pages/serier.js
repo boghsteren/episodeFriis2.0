@@ -5,7 +5,6 @@ import FilterByGenreMenu from "../components/FilterByGenreMenu";
 import SeriesList from "../components/SeriesList";
 import Head from "next/head";
 import FilterByServiceMenu from "../components/FilterByServiceMenu";
-import client from "../services/contentful";
 
 const serier = ({ series, genres }) => {
   const router = useRouter();

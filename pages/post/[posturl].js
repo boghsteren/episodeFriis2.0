@@ -12,7 +12,6 @@ import {
 import ReactMarkdown from "react-markdown";
 import { PostSeriesList } from "../../components/PostSeriesList.js";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { getPosts } from "../../services/getData";
 
 export const PostDetailsPage = ({ post, failed }) => {
@@ -22,7 +21,7 @@ export const PostDetailsPage = ({ post, failed }) => {
   return (
     <div>
       <Head>
-        <title>{titel} / episodeFriis</title>
+        <title>{`${titel} / episodeFriis`}</title>
         <meta property="og:title" content={titel} />
         <meta
           property="og:image:width"

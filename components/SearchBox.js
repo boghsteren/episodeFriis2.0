@@ -19,9 +19,7 @@ const SearchBox = ({ series }) => {
           updateTerm(data.value);
         }}
         onResultSelect={(e, { result }) =>
-          router.push(`/serie/[serieurl]`, `/serie/${result.url}`, {
-            shallow: true,
-          })
+          router.push(`/serie/[serieurl]`, `/serie/${result.url}`, {})
         }
         results={results?.map(({ fields, sys }) => {
           return {

@@ -23,7 +23,7 @@ const ShowDetailsPage = ({ show, series, posts }) => {
   return (
     <div>
       <Head>
-        <title>{titel} | episodeFriis</title>
+        <title>{`${titel} | episodeFriis`}</title>
         <meta property="og:title" content={titel} />
         <meta
           property="og:image:width"
