@@ -14,7 +14,7 @@ import Router from "next/router";
 import CategoryList from "../../components/CategoryList";
 import LinkedPostList from "../../components/LinkedPostsList";
 import { getShows } from "../../services/getData";
-import { FacebookShareCount } from "react-share";
+import { FacebookShareCount, FacebookShareButton } from "next-share";
 
 const ShowDetailsPage = ({ show, series, posts }) => {
   const { fields } = show || {};
@@ -80,32 +80,32 @@ const ShowDetailsPage = ({ show, series, posts }) => {
                       <Item.Content>
                         <Item.Header size="huge" as={"h1"}>
                           {titel}
-                          <FacebookShareCount
-                            url={`https://www.episodefriis.dk/serie/${url}`}
-                          >
-                            {(sharecount) => console.log(sharecount)}
-                          </FacebookShareCount>
-                          <FacebookShareCount
-                            accesstoken="483653635794173|SPI5OTz5Xrso9dkXsRTc2usgk8I"
-                            url={`http://www.episodefriis.dk/serie/${url}`}
-                          >
-                            {(sharecount) =>
-                              console.log(
-                                `http://www.episodefriis.dk/serie/${url}`
-                              )
-                            }
-                          </FacebookShareCount>
                         </Item.Header>
 
                         <Item.Meta as={"h2"}>{blurb}</Item.Meta>
                         <Item.Meta>
-                          <Button as="div" labelPosition="right" size="mini">
-                            <Button size="mini">
+                          <FacebookShareButton
+                            url={`https://www.episodefriis.dk/serie/${url}`}
+                          >
+                            <Button size="mini" as="div">
                               <Icon name="facebook" inverted />
                               Del
                             </Button>
-                            <Label as="a" basic pointing="left"></Label>
-                          </Button>
+                          </FacebookShareButton>
+
+                          <FacebookShareCount
+                            appId={process.env.NEXT_PUBLIC_ENV_FACEBOOK_APP}
+                            appSecret={
+                              process.env.NEXT_PUBLIC_ENV_FACEBOOK_SECRET
+                            }
+                            url={`http://www.episodefriis.dk/serie/${url}`}
+                          >
+                            {(sharecount) => (
+                              <Label basic pointing="left">
+                                {sharecount}
+                              </Label>
+                            )}
+                          </FacebookShareCount>
                         </Item.Meta>
                         <ReactMarkdown>{beskrivelse}</ReactMarkdown>
 
