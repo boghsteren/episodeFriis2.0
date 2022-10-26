@@ -13,6 +13,7 @@ import ReactMarkdown from "react-markdown";
 import { PostSeriesList } from "../../components/PostSeriesList.js";
 import Head from "next/head";
 import { getPosts } from "../../services/getData";
+import { FacebookShareCount, FacebookShareButton } from "next-share";
 
 export const PostDetailsPage = ({ post, failed }) => {
   const { fields } = post || {};
@@ -59,13 +60,26 @@ export const PostDetailsPage = ({ post, failed }) => {
             <Header size="medium" as="h2">
               {blurb}
             </Header>
-            <Button as="div" labelPosition="right" size="mini">
-              <Button size="mini">
+            <FacebookShareButton
+              url={`https://www.episodefriis.dk/post/${url}`}
+            >
+              <Button size="mini" as="div">
                 <Icon name="facebook" inverted />
                 Del
               </Button>
-              <Label as="a" basic pointing="left"></Label>
-            </Button>
+            </FacebookShareButton>
+
+            <FacebookShareCount
+              appId={process.env.NEXT_PUBLIC_ENV_FACEBOOK_APP}
+              appSecret={process.env.NEXT_PUBLIC_ENV_FACEBOOK_SECRET}
+              url={`http://www.episodefriis.dk/post/${url}`}
+            >
+              {(sharecount) => (
+                <Label basic pointing="left">
+                  {sharecount}
+                </Label>
+              )}
+            </FacebookShareCount>
             <Divider />
             <ReactMarkdown>{tekstOverListe}</ReactMarkdown>
             {liste && (
