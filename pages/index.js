@@ -5,14 +5,14 @@ import {
   Divider,
   Grid,
   Item,
-  Container,
   Header,
   Transition,
-  Popup,
+  Card,
 } from "semantic-ui-react";
 import Head from "next/head";
 import ReactMarkdown from "react-markdown";
 import client from "../services/contentful";
+import dayjs from "dayjs";
 
 export const Index = ({ series, posts, page }) => {
   const top50 = page;
@@ -36,10 +36,10 @@ export const Index = ({ series, posts, page }) => {
         />
       </Head>
       <Transition transitionOnMount duration={1000}>
-        <Container>
+        <div style={{ margin: "20px" }}>
           <Grid columns={2} stackable>
-            <Grid.Column>
-              <Segment>
+            <Grid.Column width={10}>
+              <Segment style={{ height: "100%" }}>
                 <Link href={"/posts"} passHref shallow>
                   <div>
                     <Header>Nyeste posts</Header>
@@ -50,7 +50,7 @@ export const Index = ({ series, posts, page }) => {
                     ?.slice(0, 3)
                     .map(
                       ({
-                        sys: { id },
+                        sys: { id, createdAt, updatedAt },
                         fields: { titel, blurb, url, cover },
                       }) => {
                         return (
@@ -67,13 +67,19 @@ export const Index = ({ series, posts, page }) => {
                             >
                               {cover && (
                                 <Item.Image
-                                  size="small"
+                                  size="medium"
+                                  bordered
                                   src={`https:${cover.fields.file.url}`}
                                 />
                               )}
                               <Item.Content>
                                 <Item.Header>{titel}</Item.Header>
-                                <Item.Meta>{blurb}</Item.Meta>
+                                <Item.Meta>
+                                  {`(Opd. ${dayjs(updatedAt).format(
+                                    "DD/MM/YYYY"
+                                  )})`}
+                                </Item.Meta>
+                                <Item.Description>{blurb}</Item.Description>
                               </Item.Content>
                             </div>
                           </Link>
@@ -82,7 +88,9 @@ export const Index = ({ series, posts, page }) => {
                     )}
                 </Item.Group>
               </Segment>
-              <Segment>
+            </Grid.Column>
+            <Grid.Column width={6}>
+              <Segment style={{ height: "100%" }}>
                 <Link href={"/serier"} passHref shallow>
                   <div>
                     <Header>Nyeste serier</Header>
@@ -90,7 +98,7 @@ export const Index = ({ series, posts, page }) => {
                 </Link>
                 <Item.Group>
                   {series &&
-                    series.slice(0, 5).map((show) => {
+                    series.slice(0, 3).map((show) => {
                       return (
                         <Link
                           key={show.sys.id}
@@ -106,7 +114,7 @@ export const Index = ({ series, posts, page }) => {
                           >
                             <Item.Image
                               src={show.fields.cover.fields.file.url}
-                              size="small"
+                              size="medium"
                             />
                             <Item.Content>
                               <Item.Header>{show.fields.titel}</Item.Header>
@@ -119,52 +127,50 @@ export const Index = ({ series, posts, page }) => {
                 </Item.Group>
               </Segment>
             </Grid.Column>
+          </Grid>
+          <Grid>
             <Grid.Column>
-              <Segment>
+              <span style={{ fontSize: "16px" }}>
                 <ReactMarkdown>{top50?.fields.bio}</ReactMarkdown>
-                <Divider hidden />
-                {top50?.fields.liste.map((serie, index) => {
+              </span>
+              <Divider hidden />
+              <Card.Group itemsPerRow={6} stackable>
+                {top50?.fields.liste.map((show, index) => {
                   return (
-                    <Popup
-                      key={serie.sys.id}
-                      header={`Nr. ${index + 1} på listen`}
-                      content={serie.fields.blurb}
-                      on="hover"
-                      trigger={
-                        <div>
-                          <Item.Group>
-                            <Link
-                              as={`/serie/${serie.fields.url}`}
-                              href={`/serie/[serieurl]`}
-                              passHref
-                              shallow
-                            >
-                              <div
-                                className="ui item"
-                                style={{ cursor: "pointer" }}
-                              >
-                                <Item.Image
-                                  size="tiny"
-                                  src={`https:${serie.fields.cover.fields.file.url}`}
-                                />
-                                <Item.Content>
-                                  <Item.Header as={"h1"}>
-                                    {serie.fields.titel}
-                                  </Item.Header>
-                                </Item.Content>
-                              </div>
-                            </Link>
-                          </Item.Group>
-                          <Divider hidden fitted />
-                        </div>
-                      }
-                    />
+                    <Link
+                      key={show.sys.id}
+                      as={`/serie/${show.fields.url}`}
+                      href={`/serie/[serieurl]}`}
+                      shallow
+                    >
+                      <Card>
+                        {show.fields.cover && (
+                          <div
+                            style={{
+                              height: "150px",
+                              backgroundImage: `url(
+                                  https:${show.fields.cover.fields.file.url}?h=300
+                                )`,
+                              backgroundSize: "cover",
+                            }}
+                          ></div>
+                        )}
+                        <Card.Content>
+                          <Card.Description>
+                            {`Nr. ${index + 1}:`}
+                          </Card.Description>
+                          <Card.Description>
+                            {show.fields.titel}
+                          </Card.Description>
+                        </Card.Content>
+                      </Card>
+                    </Link>
                   );
                 })}
-              </Segment>
+              </Card.Group>
             </Grid.Column>
           </Grid>
-        </Container>
+        </div>
       </Transition>
     </div>
   );
@@ -173,12 +179,12 @@ export const Index = ({ series, posts, page }) => {
 export async function getStaticProps() {
   const page = await client.getEntry("5UJz7bo4W4mCe6eQAe6YcM");
   const series = await client.getEntries({
-    order: "-sys.createdAt",
+    order: "-sys.updatedAt",
     content_type: "serie",
     limit: 500,
   });
   const posts = await client.getEntries({
-    order: "-sys.createdAt",
+    order: "-sys.updatedAt",
     content_type: "post",
     limit: 500,
   });

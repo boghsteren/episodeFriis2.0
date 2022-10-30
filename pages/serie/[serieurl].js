@@ -51,116 +51,112 @@ const ShowDetailsPage = ({ show, series, posts }) => {
       </Head>
 
       <Transition>
-        <div>
-          <Container>
-            <div>
-              <Segment>
-                <div>
-                  <Item.Group>
-                    <Item>
-                      {cover && (
-                        <Item.Image
-                          src={`https:${cover?.fields.file.url}`}
-                          size="big"
-                          bordered
-                          label={
-                            <Label
-                              ribbon
-                              as="a"
-                              color={ribbonColor(udbyder)}
-                              onClick={() =>
-                                Router.push(`/serier?clickedudbyder=${udbyder}`)
-                              }
-                            >
-                              {udbyder}
-                            </Label>
-                          }
-                        />
-                      )}
-                      <Item.Content>
-                        <Item.Header size="huge" as={"h1"}>
-                          {titel}
-                        </Item.Header>
-
-                        <Item.Meta as={"h2"}>{blurb}</Item.Meta>
-                        <Item.Meta>
-                          <FacebookShareButton
-                            url={`https://www.episodefriis.dk/serie/${url}`}
-                          >
-                            <Button size="mini" as="div">
-                              <Icon name="facebook" inverted />
-                              Del
-                            </Button>
-                          </FacebookShareButton>
-
-                          <FacebookShareCount
-                            appId={process.env.NEXT_PUBLIC_ENV_FACEBOOK_APP}
-                            appSecret={
-                              process.env.NEXT_PUBLIC_ENV_FACEBOOK_SECRET
+        <div style={{ margin: "20px" }}>
+          <div>
+            <Segment>
+              <div>
+                <Item.Group>
+                  <Item>
+                    {cover && (
+                      <Item.Image
+                        src={`https:${cover?.fields.file.url}`}
+                        size="massive"
+                        bordered
+                        label={
+                          <Label
+                            ribbon
+                            as="a"
+                            color={ribbonColor(udbyder)}
+                            onClick={() =>
+                              Router.push(`/serier?clickedudbyder=${udbyder}`)
                             }
-                            url={`http://www.episodefriis.dk/serie/${url}`}
                           >
-                            {(sharecount) => (
-                              <Label basic pointing="left">
-                                {sharecount}
-                              </Label>
-                            )}
-                          </FacebookShareCount>
-                        </Item.Meta>
-                        <ReactMarkdown>{beskrivelse}</ReactMarkdown>
+                            {udbyder}
+                          </Label>
+                        }
+                      />
+                    )}
+                    <Item.Content>
+                      <Item.Header size="huge" as={"h1"}>
+                        {titel}
+                      </Item.Header>
 
-                        <Item.Extra>
-                          {kategori &&
-                            kategori
-                              .sort((a, b) => {
-                                if (a.fields.kategori > b.fields.kategori) {
-                                  return 1;
+                      <Item.Meta as={"h2"}>{blurb}</Item.Meta>
+                      <Item.Meta>
+                        <FacebookShareButton
+                          url={`https://www.episodefriis.dk/serie/${url}`}
+                        >
+                          <Button size="mini" as="div">
+                            <Icon name="facebook" inverted />
+                            Del
+                          </Button>
+                        </FacebookShareButton>
+
+                        <FacebookShareCount
+                          appId={process.env.NEXT_PUBLIC_ENV_FACEBOOK_APP}
+                          appSecret={
+                            process.env.NEXT_PUBLIC_ENV_FACEBOOK_SECRET
+                          }
+                          url={`http://www.episodefriis.dk/serie/${url}`}
+                        >
+                          {(sharecount) => (
+                            <Label basic pointing="left">
+                              {sharecount}
+                            </Label>
+                          )}
+                        </FacebookShareCount>
+                      </Item.Meta>
+                      <ReactMarkdown>{beskrivelse}</ReactMarkdown>
+
+                      <Item.Extra>
+                        {kategori &&
+                          kategori
+                            .sort((a, b) => {
+                              if (a.fields.kategori > b.fields.kategori) {
+                                return 1;
+                              }
+                              if (a.fields.kategori > b.fields.kategori) {
+                                return -1;
+                              }
+                            })
+                            .map((kategori) => (
+                              <Label
+                                key={kategori.sys.id}
+                                as="a"
+                                onClick={() =>
+                                  Router.push(
+                                    `/serier?clickedgenre=${kategori.fields.kategori}`
+                                  )
                                 }
-                                if (a.fields.kategori > b.fields.kategori) {
-                                  return -1;
-                                }
-                              })
-                              .map((kategori) => (
-                                <Label
-                                  key={kategori.sys.id}
-                                  as="a"
-                                  onClick={() =>
-                                    Router.push(
-                                      `/serier?clickedgenre=${kategori.fields.kategori}`
-                                    )
-                                  }
-                                >
-                                  {kategori.fields.kategori}
-                                </Label>
-                              ))}
-                        </Item.Extra>
-                      </Item.Content>
-                    </Item>
-                  </Item.Group>
+                              >
+                                {kategori.fields.kategori}
+                              </Label>
+                            ))}
+                      </Item.Extra>
+                    </Item.Content>
+                  </Item>
+                </Item.Group>
+              </div>
+            </Segment>
+            {posts && (
+              <div style={{ marginBottom: "20px", marginTop: "20px" }}>
+                <LinkedPostList show={show} posts={posts}></LinkedPostList>
+              </div>
+            )}
+            {series &&
+              kategori.map((kategori) => (
+                <div
+                  key={kategori.sys.id}
+                  style={{ marginBottom: "20px", marginTop: "20px" }}
+                >
+                  <CategoryList
+                    series={series}
+                    genre={kategori.fields.kategori}
+                    id={show.sys.id}
+                  ></CategoryList>
                 </div>
-              </Segment>
-              <Container>
-                {posts && (
-                  <div style={{ marginBottom: "20px", marginTop: "20px" }}>
-                    <LinkedPostList show={show} posts={posts}></LinkedPostList>
-                  </div>
-                )}
-                {series &&
-                  kategori.map((kategori) => (
-                    <div
-                      key={kategori.sys.id}
-                      style={{ marginBottom: "20px", marginTop: "20px" }}
-                    >
-                      <CategoryList
-                        series={series}
-                        genre={kategori.fields.kategori}
-                        id={show.sys.id}
-                      ></CategoryList>
-                    </div>
-                  ))}
-              </Container>
-            </div>
-          </Container>
+              ))}
+          </div>
         </div>
       </Transition>
     </div>

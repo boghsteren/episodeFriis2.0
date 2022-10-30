@@ -10,7 +10,7 @@ export const CategoryList = ({ genre, id, series }) => {
     getRelatedShows(genre, series).filter((show) => show.sys.id !== id);
   return (
     relatedShows?.length > 1 && (
-      <Container>
+      <div>
         <Header>Andre {genre.toLowerCase()}-serier</Header>
         <Card.Group itemsPerRow={5} stackable>
           {relatedShows.map((show) => {
@@ -26,9 +26,9 @@ export const CategoryList = ({ genre, id, series }) => {
                     {show.fields.cover && (
                       <div
                         style={{
-                          height: "120px",
+                          height: "200px",
                           backgroundImage: `url(
-                            https:${show.fields.cover.fields.file.url}?h=250
+                            https:${show.fields.cover.fields.file.url}?h=400
                           )`,
                           backgroundSize: "cover",
                         }}
@@ -43,7 +43,7 @@ export const CategoryList = ({ genre, id, series }) => {
             }
           })}
         </Card.Group>
-      </Container>
+      </div>
     )
   );
 };

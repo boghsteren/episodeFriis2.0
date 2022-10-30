@@ -2,6 +2,7 @@ import React from "react";
 import { Item, Label, Header, Segment, Divider } from "semantic-ui-react";
 import { ribbonColor } from "../services/ribboncolor";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
 export const SeriesList = ({ series }) => {
   return (
@@ -10,7 +11,7 @@ export const SeriesList = ({ series }) => {
       <Divider />
       <Item.Group divided>
         {series &&
-          series.map(show => {
+          series.map((show) => {
             return (
               <Link
                 key={show.sys.id}
@@ -26,7 +27,7 @@ export const SeriesList = ({ series }) => {
                 >
                   {show.fields.cover ? (
                     <Item.Image
-                      size="medium"
+                      size="large"
                       src={`https:${show.fields.cover.fields.file.url}`}
                       label={
                         show.fields.udbyder && (
@@ -51,8 +52,16 @@ export const SeriesList = ({ series }) => {
                     </Segment>
                   )}
                   <Item.Content>
-                    <Item.Header>{show.fields.titel}</Item.Header>
+                    <Header size="large">{show.fields.titel}</Header>
                     <Item.Meta>{show.fields.blurb}</Item.Meta>
+                    <Item.Description>
+                      <ReactMarkdown>
+                        {show.fields.beskrivelse.substring(
+                          0,
+                          show.fields.beskrivelse.lastIndexOf(" ", 400)
+                        ) + "..."}
+                      </ReactMarkdown>
+                    </Item.Description>
                     <Item.Extra>
                       {show.fields.kategori &&
                         show.fields.kategori
@@ -64,7 +73,7 @@ export const SeriesList = ({ series }) => {
                               return -1;
                             }
                           })
-                          .map(kategori => (
+                          .map((kategori) => (
                             <Label
                               key={`${kategori.fields.kategori}-${show.sys.id}`}
                             >

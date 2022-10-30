@@ -1,8 +1,15 @@
 import React from "react";
-import { Container, Item, Transition } from "semantic-ui-react";
+import {
+  Container,
+  Divider,
+  Header,
+  Item,
+  Transition,
+} from "semantic-ui-react";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import Head from "next/head";
+import dayjs from "dayjs";
 
 export const Posts = ({ posts }) => {
   return (
@@ -22,7 +29,7 @@ export const Posts = ({ posts }) => {
         />
       </Head>
       <Transition transitionOnMount duration={1000}>
-        <Container>
+        <div style={{ margin: "20px" }}>
           <Item.Group divided relaxed>
             {posts &&
               posts.map((post) => {
@@ -37,28 +44,36 @@ export const Posts = ({ posts }) => {
                     <div className="ui item" style={{ cursor: "pointer" }}>
                       {post.fields.cover && (
                         <Item.Image
-                          size="medium"
+                          size="large"
                           src={`https:${post.fields.cover.fields.file.url}`}
                         />
                       )}
                       <Item.Content>
-                        <Item.Header as={"h1"}>{post.fields.titel}</Item.Header>
-                        <Item.Meta as={"h2"}>{post.fields.blurb}</Item.Meta>
+                        <Header size="huge"> {post.fields.titel}</Header>
+                        <Divider></Divider>
+
+                        <Item.Header as={"h2"}>{post.fields.blurb}</Item.Header>
+
                         <Item.Description>
                           <ReactMarkdown>
                             {post.fields.tekstOverListe.substring(
                               0,
-                              post.fields.tekstOverListe.lastIndexOf(" ", 200)
+                              post.fields.tekstOverListe.lastIndexOf(" ", 400)
                             ) + "..."}
                           </ReactMarkdown>
                         </Item.Description>
+                        <Item.Meta>
+                          {`(Opd. ${dayjs(post.sys.updatedAt).format(
+                            "DD/MM/YYYY"
+                          )})`}
+                        </Item.Meta>
                       </Item.Content>
                     </div>
                   </Link>
                 );
               })}
           </Item.Group>
-        </Container>
+        </div>
       </Transition>
     </div>
   );

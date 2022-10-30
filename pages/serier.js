@@ -47,71 +47,38 @@ const serier = ({ series, genres }) => {
         />
       </Head>
       <Transition duration={1000}>
-        <Container>
+        <div style={{ margin: "20px" }}>
           <div className="desktop">
-            <Grid columns="2">
-              <Grid.Column style={{ maxWidth: "250px", marginTop: "20px" }}>
-                <div
-                  style={{
-                    position: "fixed",
-                    maxWidth: "200px",
-                  }}
-                >
-                  <Header>Genrer</Header>
-                  {genres && (
-                    <FilterByGenreMenu
-                      series={filteredByUdbyder}
-                      setGenre={setGenre}
-                      genres={genres}
-                      activeGenre={genre}
-                    ></FilterByGenreMenu>
-                  )}
-                  <Header>Udbydere</Header>
-                  {series && (
-                    <FilterByServiceMenu
-                      series={series}
-                      filterSeries={filteredByGenre}
-                      setService={setService}
-                      selectedService={service}
-                    />
-                  )}
-                </div>
-                <div style={{ marginBottom: "80px" }} />
+            <Grid columns="3">
+              <Grid.Column computer={2} mobile={8}>
+                <Header>Genrer</Header>
+                {genres && (
+                  <FilterByGenreMenu
+                    series={filteredByUdbyder}
+                    setGenre={setGenre}
+                    genres={genres}
+                    activeGenre={genre}
+                  ></FilterByGenreMenu>
+                )}
               </Grid.Column>
-              <Grid.Column>
+              <Grid.Column computer={2} mobile={8}>
+                <Header>Udbydere</Header>
+                {series && (
+                  <FilterByServiceMenu
+                    series={series}
+                    filterSeries={filteredByGenre}
+                    setService={setService}
+                    selectedService={service}
+                  />
+                )}
+              </Grid.Column>
+              <Grid.Column computer={12} mobile={16}>
                 <SeriesList series={filteredByGenre} />
               </Grid.Column>
             </Grid>
           </div>
-          <div className="mobile">
-            <Grid>
-              <Grid.Column>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    marginBottom: "15px",
-                  }}
-                ></div>
-                <SeriesList series={filteredByGenre} />
-              </Grid.Column>
-            </Grid>
-          </div>
-        </Container>
+        </div>
       </Transition>
-      <style jsx>{`
-        .mobile {
-          display: none !important;
-        }
-        @media (max-width: 600px) {
-          .desktop {
-            display: none !important;
-          }
-          .mobile {
-            display: block !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };

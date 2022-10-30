@@ -11,9 +11,9 @@ export const LinkedPostList = ({ show, posts }) => {
   return (
     <div>
       {posts && relatedPosts.length > 0 && (
-        <Container>
+        <div>
           <Header>Relaterede posts</Header>
-          <Card.Group itemsPerRow={2} stackable>
+          <Card.Group itemsPerRow={3} stackable>
             {relatedPosts?.map((post) => {
               return (
                 <Link
@@ -29,7 +29,7 @@ export const LinkedPostList = ({ show, posts }) => {
                         style={{
                           height: "250px",
                           backgroundImage: `url(
-                          https:${post.fields.cover.fields.file.url}?h=250
+                          https:${post.fields.cover.fields.file.url}?h=500
                         )`,
                           backgroundSize: "cover",
                         }}
@@ -44,7 +44,7 @@ export const LinkedPostList = ({ show, posts }) => {
               );
             })}
           </Card.Group>
-        </Container>
+        </div>
       )}
     </div>
   );
