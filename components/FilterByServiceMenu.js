@@ -5,13 +5,15 @@ const FilterByServiceMenu = ({
   series,
   selectedService,
   setService,
-  filterSeries
+  filterSeries,
 }) => {
-  const services = [...new Set(series.map(show => show.fields.udbyder).sort())];
+  const services = [
+    ...new Set(series.map((show) => show.fields.udbyder).sort()),
+  ];
   return (
     <div>
       {services.map(
-        service =>
+        (service) =>
           service && (
             <div key={service}>
               <Checkbox
@@ -26,7 +28,7 @@ const FilterByServiceMenu = ({
               />
               <Label circular>
                 {
-                  filterSeries.filter(show => show.fields.udbyder === service)
+                  filterSeries.filter((show) => show.fields.udbyder === service)
                     .length
                 }
               </Label>
