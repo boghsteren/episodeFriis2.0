@@ -1,6 +1,5 @@
 import {
   Segment,
-  Container,
   Item,
   Label,
   Transition,

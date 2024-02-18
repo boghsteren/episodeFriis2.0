@@ -10,8 +10,10 @@ import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 import Head from "next/head";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 
 export const Posts = ({ posts }) => {
+  const router = useRouter();
   return (
     <div>
       <Head>
@@ -34,42 +36,38 @@ export const Posts = ({ posts }) => {
             {posts &&
               posts.map((post) => {
                 return (
-                  <Link
+                  <Item
+                    as="a"
+                    onClick={() => router.push(`/post/${post.fields.url}`)}
                     key={post.sys.id}
-                    as={`/post/${post.fields.url}`}
-                    href={`/post/[posturl]`}
-                    passHref
-                    shallow
                   >
-                    <div className="ui item" style={{ cursor: "pointer" }}>
-                      {post.fields.cover && (
-                        <Item.Image
-                          size="large"
-                          src={`https:${post.fields.cover.fields.file.url}`}
-                        />
-                      )}
-                      <Item.Content>
-                        <Header size="huge"> {post.fields.titel}</Header>
-                        <Divider></Divider>
+                    {post.fields.cover && (
+                      <Item.Image
+                        size="large"
+                        src={`https:${post.fields.cover.fields.file.url}?h=250&w=400&fit=fill&f=faces`}
+                      />
+                    )}
+                    <Item.Content>
+                      <Header size="large"> {post.fields.titel}</Header>
+                      <Divider></Divider>
 
-                        <Item.Header as={"h2"}>{post.fields.blurb}</Item.Header>
+                      <Header size="small">{post.fields.blurb}</Header>
 
-                        <Item.Description>
-                          <ReactMarkdown>
-                            {post.fields.tekstOverListe.substring(
-                              0,
-                              post.fields.tekstOverListe.lastIndexOf(" ", 400)
-                            ) + "..."}
-                          </ReactMarkdown>
-                        </Item.Description>
-                        <Item.Meta>
-                          {`(Opd. ${dayjs(post.sys.updatedAt).format(
-                            "DD/MM/YYYY"
-                          )})`}
-                        </Item.Meta>
-                      </Item.Content>
-                    </div>
-                  </Link>
+                      <Item.Description>
+                        <ReactMarkdown>
+                          {post.fields.tekstOverListe.substring(
+                            0,
+                            post.fields.tekstOverListe.lastIndexOf(" ", 500)
+                          ) + "..."}
+                        </ReactMarkdown>
+                      </Item.Description>
+                      <Item.Meta>
+                        {`(Opd. ${dayjs(post.sys.updatedAt).format(
+                          "DD/MM/YYYY"
+                        )})`}
+                      </Item.Meta>
+                    </Item.Content>
+                  </Item>
                 );
               })}
           </Item.Group>

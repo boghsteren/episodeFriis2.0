@@ -15,7 +15,7 @@ export const Footer = () => {
           }}
         >
           <Link href="/privatliv" shallow>
-            <a>Privatlivspolitik</a>
+            Privatlivspolitik
           </Link>
           <Image
             src="/PoweredByContentful_LightBackground.svg"

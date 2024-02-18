@@ -8,13 +8,16 @@ import {
   Header,
   Transition,
   Card,
+  Image,
 } from "semantic-ui-react";
 import Head from "next/head";
 import ReactMarkdown from "react-markdown";
 import client from "../services/contentful";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 
 export const Index = ({ series, posts, page }) => {
+  const router = useRouter();
   const top50 = page;
   return (
     <div>
@@ -38,12 +41,10 @@ export const Index = ({ series, posts, page }) => {
       <Transition transitionOnMount duration={1000}>
         <div style={{ margin: "20px" }}>
           <Grid columns={2} stackable>
-            <Grid.Column width={10}>
+            <Grid.Column width={8}>
               <Segment style={{ height: "100%" }}>
                 <Link href={"/posts"} passHref shallow>
-                  <div>
-                    <Header>Nyeste posts</Header>
-                  </div>
+                  <Header>Nyeste posts</Header>
                 </Link>
                 <Item.Group>
                   {posts
@@ -54,42 +55,35 @@ export const Index = ({ series, posts, page }) => {
                         fields: { titel, blurb, url, cover },
                       }) => {
                         return (
-                          <Link
+                          <Item
                             key={id}
-                            as={`/post/${url}`}
-                            href={`/post/[posturl]`}
-                            passHref
-                            shallow
+                            onClick={() => router.push(`/post/${url}`)}
+                            as="a"
                           >
-                            <div
-                              className="ui item"
-                              style={{ cursor: "pointer" }}
-                            >
-                              {cover && (
-                                <Item.Image
-                                  size="medium"
-                                  bordered
-                                  src={`https:${cover.fields.file.url}`}
-                                />
-                              )}
-                              <Item.Content>
-                                <Item.Header>{titel}</Item.Header>
-                                <Item.Meta>
-                                  {`(Opd. ${dayjs(updatedAt).format(
-                                    "DD/MM/YYYY"
-                                  )})`}
-                                </Item.Meta>
-                                <Item.Description>{blurb}</Item.Description>
-                              </Item.Content>
-                            </div>
-                          </Link>
+                            {cover && (
+                              <Item.Image
+                                size="large"
+                                bordered
+                                src={`https:${cover.fields.file.url}?w=1200&h=700&fit=fill&f=faces`}
+                              />
+                            )}
+                            <Item.Content>
+                              <Item.Header>{titel}</Item.Header>
+                              <Item.Meta>
+                                {`(Opd. ${dayjs(updatedAt).format(
+                                  "DD/MM/YYYY"
+                                )})`}
+                              </Item.Meta>
+                              <Item.Description>{blurb}</Item.Description>
+                            </Item.Content>
+                          </Item>
                         );
                       }
                     )}
                 </Item.Group>
               </Segment>
             </Grid.Column>
-            <Grid.Column width={6}>
+            <Grid.Column width={8}>
               <Segment style={{ height: "100%" }}>
                 <Link href={"/serier"} passHref shallow>
                   <div>
@@ -98,73 +92,64 @@ export const Index = ({ series, posts, page }) => {
                 </Link>
                 <Item.Group>
                   {series &&
-                    series.slice(0, 3).map((show) => {
+                    series.slice(0, 5).map((show) => {
                       return (
-                        <Link
+                        <Item
+                          as="a"
+                          onClick={() =>
+                            router.push(`/serie/${show.fields.url}`)
+                          }
                           key={show.sys.id}
-                          as={`/serie/${show.fields.url}`}
-                          href={`/serie/[serieurl]`}
-                          passHref
-                          shallow
+                          style={{ cursor: "pointer" }}
                         >
-                          <div
-                            className="ui item"
-                            key={show.sys.id}
-                            style={{ cursor: "pointer" }}
-                          >
-                            <Item.Image
-                              src={show.fields.cover.fields.file.url}
-                              size="medium"
-                            />
-                            <Item.Content>
-                              <Item.Header>{show.fields.titel}</Item.Header>
-                              <Item.Meta>{show.fields.blurb}</Item.Meta>
-                            </Item.Content>
-                          </div>
-                        </Link>
+                          <Item.Image
+                            src={`${show.fields.cover.fields.file.url}?h=400&w=800&fit=fill`}
+                            size="medium"
+                          />
+                          <Item.Content>
+                            <Item.Header>{show.fields.titel}</Item.Header>
+                            <Item.Meta>{show.fields.blurb}</Item.Meta>
+                          </Item.Content>
+                        </Item>
                       );
                     })}
                 </Item.Group>
               </Segment>
             </Grid.Column>
           </Grid>
-          <Grid>
+          <Grid style={{ margin: "6px" }}>
             <Grid.Column>
-              <span style={{ fontSize: "16px" }}>
+              <span>
                 <ReactMarkdown>{top50?.fields.bio}</ReactMarkdown>
               </span>
               <Divider hidden />
-              <Card.Group itemsPerRow={6} stackable>
+              <Card.Group itemsPerRow={5} stackable>
                 {top50?.fields.liste.map((show, index) => {
                   return (
-                    <Link
+                    <Card
                       key={show.sys.id}
-                      as={`/serie/${show.fields.url}`}
-                      href={`/serie/[serieurl]}`}
-                      shallow
+                      as="a"
+                      onClick={() => router.push(`/serie/${show.fields.url}`)}
                     >
-                      <Card>
-                        {show.fields.cover && (
-                          <div
-                            style={{
-                              height: "150px",
-                              backgroundImage: `url(
+                      {show.fields.cover && (
+                        <div
+                          style={{
+                            height: "150px",
+                            backgroundImage: `url(
                                   https:${show.fields.cover.fields.file.url}?h=300
                                 )`,
-                              backgroundSize: "cover",
-                            }}
-                          ></div>
-                        )}
-                        <Card.Content>
-                          <Card.Description>
-                            {`Nr. ${index + 1}:`}
-                          </Card.Description>
-                          <Card.Description>
-                            {show.fields.titel}
-                          </Card.Description>
-                        </Card.Content>
-                      </Card>
-                    </Link>
+                            backgroundSize: "cover",
+                          }}
+                        ></div>
+                      )}
+                      <Card.Content>
+                        <Card.Description>
+                          {`Nr. ${index + 1}:`}
+                        </Card.Description>
+                        <Card.Header>{show.fields.titel}</Card.Header>
+                        <Card.Meta>{show.fields.blurb}</Card.Meta>
+                      </Card.Content>
+                    </Card>
                   );
                 })}
               </Card.Group>

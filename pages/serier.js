@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Transition, Container, Grid, Header } from "semantic-ui-react";
+import { Transition, Grid, Header } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import FilterByGenreMenu from "../components/FilterByGenreMenu";
 import SeriesList from "../components/SeriesList";

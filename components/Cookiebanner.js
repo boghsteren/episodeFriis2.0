@@ -8,7 +8,7 @@ export default class Cookiebanner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCookieBanner: undefined
+      showCookieBanner: undefined,
     };
   }
   componentDidMount() {
@@ -26,29 +26,28 @@ export default class Cookiebanner extends React.Component {
 
   render() {
     return (
-      this.state.showCookieBanner === true &&
-      <div
-        style={{
-          position: "fixed",
-          bottom: "0",
-          width: "100%",
-          zIndex: "999"
-        }}
-      >
-        <Message
-          onDismiss={() => {
-            document.cookie = "showCookieBanner=false;max-age=31536000";
-            this.update();
+      this.state.showCookieBanner === true && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "0",
+            width: "100%",
+            zIndex: "999",
           }}
         >
-          <Message.Header>Vi bruger cookies</Message.Header>
-          Det gør vi for at kunne se hvor mange besøgende vi får og for at
-          forbedre siden.
-          <Link href="/privatliv">
-            <a> Læs mere...</a>
-          </Link>
-        </Message>
-      </div>
+          <Message
+            onDismiss={() => {
+              document.cookie = "showCookieBanner=false;max-age=31536000";
+              this.update();
+            }}
+          >
+            <Message.Header>Vi bruger cookies</Message.Header>
+            Det gør vi for at kunne se hvor mange besøgende vi får og for at
+            forbedre siden.
+            <Link href="/privatliv">Læs mere...</Link>
+          </Message>
+        </div>
+      )
     );
   }
 }
